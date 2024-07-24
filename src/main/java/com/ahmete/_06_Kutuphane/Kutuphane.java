@@ -149,7 +149,7 @@ public class Kutuphane {
 	
 	// uyeListele 11:05
 	public void uyelerListele() {
-		System.out.println("----------KUTUPHANE ÜYE LISTESI----------");
+		System.out.println("---------- ÜYE LISTESI----------");
 		if (uyeSayisi == 0) {
 			System.out.println("Üye Listesi boş.");
 		}
@@ -336,11 +336,115 @@ public class Kutuphane {
 			System.out.println(silinecekKitap.getAd()+" adlı kitap adeti 1 azaltıldı. ");
 		}
 		
+		
 	}
+	// uye'yi sildik.
+	public void uyeSil(String tcNo){
+		int silinecekUyeIndex=uyeBul(tcNo);
+		if (silinecekUyeIndex==-1){
+			System.out.println("bu tc No da üye bulunamadı");
+			return;
+		}
+		Uye silinecekUye=uyeler[silinecekUyeIndex];
+		int oduncSayisi=silinecekUye.getOduncAldigiKitapSayisi();
+		if (oduncSayisi>0){
+			System.out.println("uye nin üzerinde odunc kitap oldugu için silinemez");
+			return;
+		}
+		if (silinecekUyeIndex==uyeSayisi-1){
+			uyeler[uyeSayisi-1]=null;
+			uyeSayisi--;
+			System.out.println(silinecekUye.getAd()+" adlı uye silinmiştir");
+			return;
+		}
+		for (int i = silinecekUyeIndex; i <uyeSayisi ; i++) {
+			uyeler[i]=uyeler[i+1];
+			
+		}
+		uyeler[uyeSayisi-1]=null;
+		uyeSayisi--;
+		System.out.println(silinecekUye.getAd()+" adlı uye silinmiştir");
+		
+	}
+	// kitapAra(kitapAdı) geriye Kitap[] dönsün.
+	public Kitap kitapAra(String kitapAdi){
+		int bulunanKitapIndex=-1;
+		boolean kitapVarMi=false;
+		for (int i = 0; i <kitapIndex ; i++) {
+			if(kitapAdi.equals(kitaplar[i].getAd())){
+				kitapVarMi=true;
+				bulunanKitapIndex=i;
+				break;
+			}
+		}
+		if (kitapVarMi){
+			Kitap bulunanKitap=kitaplar[bulunanKitapIndex];
+			System.out.println("bulunankitap");
+			return bulunanKitap;
+		}
+		System.out.println("Aradığınız kitap bulunamadı");
+		return null;
+	}
+	// uyeyi adı'na  göre ara
+	public void uyeAra(String uyeAd){
+		boolean uyeVarMi=false;
+		for (int i = 0; i <uyeSayisi ; i++) {
+			if (uyeAd.equalsIgnoreCase(uyeler[i].getAd())){
+				System.out.println(uyeler[i]);
+				uyeVarMi=true;
+			}
+		}
+		if (!uyeVarMi){
+			System.out.println("aradığnız uye yok ");
+
+		}
+	}
+	//uyeAra(uyeAD) geriye Uye[]
+	/*public int[] uyeIsimIndexGetir(String uyeAd){
+		int sayac=0;
+		boolean uyeVarMi=false;
+		for (int i = 0; i <uyeSayisi ; i++) {
+			if (uyeAd.equalsIgnoreCase(uyeler[i].getAd())){
+				
+				sayac++;
+				uyeVarMi=true;
+			}
+		}
+		if (!uyeVarMi){
+			System.out.println("aradığnız uye yok ");
+			return null;
+			
+		}
+		int[] uyeIndexleri=new int[sayac];
+		for (int i = 0; i <uyeSayisi ; i++) {
+			if (uyeAd.equalsIgnoreCase(uyeler[i].getAd())){
+				uyeIndexleri[i]=i;
+				
+			}
+		}
+		return uyeIndexleri;
+	}
+	public Uye uyeAra(String uyeAd,String uyeSoyad){
+		int[] uyeIndexleri = uyeIsimIndexGetir(uyeAd);
+		if (uyeIndexleri==null){
+			return null;
+		}
+		for (int uyeIndex:uyeIndexleri){
+			if (uyeSoyad.equalsIgnoreCase(uyeler[uyeIndex].getSoyad())){
+				System.out.println(uyeler[uyeIndex]);
+				return uyeler[uyeIndex];
+			}
+		}
+		System.out.println("böyle bir kullanıcı bulunamadı");
+		return null;
+	}*/
 	
 	
 	
-	//uyeSil, uye üzerinde kitap varsa silinimez
+	
+	
+	
+	//uyeSil, uye üzerinde kitap varsa silinimez //yapıldı.
 	
 	
 	// uyedekiKitaplar: teslimTarihi null olan ödünç listesinde ödünçlerin içinde uye bilgisinin tc'si aranan tc ile
@@ -348,12 +452,6 @@ public class Kutuphane {
 	
 	//uyeninOduncAldığıTümKitaplar:ödünç listesinde ödünçlerin içinde uye bilgisinin tc'si aranan tc ile
 	//	// eşleşiyorsa o oduncteki kitap bilgisi yazdırılacak.
-	
-	
-	
-	
-	
-	
 	
 	//Metodlar:
 	/*
